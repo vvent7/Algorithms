@@ -1,0 +1,46 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+    {
+      "type": "shell",
+      "label": "Create ouput file",
+      "command": "g++",
+      "args": [
+        "-c",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}.o"
+      ],
+      "group": "build"
+    },
+    {
+      "type": "shell",
+      "label": "Connect Output",
+      "command": "g++",
+      "args": [
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}",
+        "${fileDirname}/${fileBasenameNoExtension}.o"
+      ],
+      "group": "build",
+      "dependsOn": ["Create ouput file"]
+    },
+    {
+      "type": "shell",
+      "label": "Program Execution",
+      "command": "gnome-terminal",
+      "args": [
+        "--title='${fileBasename}'",
+        "-x",
+        "/usr/bin/cb_console_runner",
+        "${fileDirname}/${fileBasenameNoExtension}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "dependsOn": ["Create ouput file", "Connect Output"]
+    }
+  ]
+}
